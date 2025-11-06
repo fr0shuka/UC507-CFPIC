@@ -180,3 +180,77 @@ document.addEventListener("DOMContentLoaded", () => {
   // Chamar a API externa
   fetchApiData();
 });
+
+// ############   DESAFIO   ############
+// --- Extra: Exportar tarefas para ficheiro TXT ---
+function exportarTarefasTxt() {
+  const tarefas = getTarefas();
+
+  if (!tarefas || tarefas.length === 0) {
+    alert("Não há tarefas para exportar!");
+    return;
+  }
+
+  // Construção do conteúdo
+  let conteudo = "RELATÓRIO DE TAREFAS\n";
+  conteudo += "======================\n\n";
+
+  tarefas.forEach((t, i) => {
+    conteudo += `${i + 1}. ${t.titulo}\n`;
+    conteudo += `   Estado: ${t.concluida ? "Concluída ✅" : "Pendente ⏳"}\n`;
+    conteudo += `   ID: ${t.id}\n\n`;
+  });
+
+  conteudo += `Total: ${tarefas.length} tarefas\n`;
+  conteudo += `Gerado em: ${new Date().toLocaleString()}\n`;
+
+  // Criação do ficheiro e download automático
+  const blob = new Blob([conteudo], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "tarefas_relatorio.txt";
+  link.click();
+
+  URL.revokeObjectURL(url); // limpeza de memória
+}
+
+document.getElementById("btn-exportar").addEventListener("click", exportarTarefasTxt);
+
+
+
+// --- Extra: Exportar tarefas para ficheiro CSV ---
+function exportarTarefasCsv() {
+  const tarefas = getTarefas();
+
+  if (!tarefas || tarefas.length === 0) {
+    alert("Não há tarefas para exportar!");
+    return;
+  }
+
+  // Cabeçalho CSV
+  let conteudo = "ID,Título,Estado\n";
+
+  // Cada linha representa uma tarefa
+  tarefas.forEach(t => {
+    const estado = t.concluida ? "Concluída" : "Pendente";
+    // Escapar vírgulas dentro do título (usar aspas)
+    const tituloSeguro = `"${t.titulo.replace(/"/g, '""')}"`;
+    conteudo += `${t.id},${tituloSeguro},${estado}\n`;
+  });
+
+  // Criação e download do ficheiro
+  const blob = new Blob([conteudo], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "tarefas_relatorio.csv";
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+
+
+document.getElementById("btn-exportar-csv").addEventListener("click", exportarTarefasCsv);
