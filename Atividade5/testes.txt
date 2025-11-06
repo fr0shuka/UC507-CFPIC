@@ -1,0 +1,55 @@
+PLANO DE TESTES - Projeto Gestor de Tarefas (Sem Login)
+
+------------------------------------------------------
+Caso de Teste 1: Adicionar Tarefa
+------------------------------------------------------
+1. Sucesso (Título válido)
+   - Input: "Estudar JavaScript"
+   - Resultado esperado: A tarefa aparece na lista e é guardada no localStorage.
+
+2. Falha (Campo vazio)
+   - Input: ""
+   - Resultado esperado: Não adiciona tarefa. Exibe aviso no console ou mensagem visual.
+
+------------------------------------------------------
+Caso de Teste 2: Remover Tarefa
+------------------------------------------------------
+1. Sucesso (Remoção normal)
+   - Ação: Clicar no botão "Remover"
+   - Resultado esperado: A tarefa é removida da lista e do localStorage.
+
+2. Falha (ID inexistente)
+   - Ação: Chamar removerTarefa() com ID inválido
+   - Resultado esperado: Nenhum erro. Lista permanece inalterada.
+
+------------------------------------------------------
+Caso de Teste 3: Alternar Conclusão
+------------------------------------------------------
+1. Sucesso (Marcar como concluída)
+   - Ação: Clicar em "Concluir"
+   - Resultado esperado: A tarefa recebe a classe .concluida e o estado é guardado no localStorage.
+
+2. Sucesso (Desfazer conclusão)
+   - Ação: Clicar novamente em "Desfazer"
+   - Resultado esperado: A classe .concluida é removida.
+
+------------------------------------------------------
+Caso de Teste 4: Persistência (localStorage)
+------------------------------------------------------
+1. Sucesso
+   - Ação: Recarregar a página
+   - Resultado esperado: As tarefas guardadas reaparecem.
+
+2. Falha (JSON corrompido)
+   - Ação: Inserir manualmente dados inválidos em localStorage
+   - Resultado esperado: Nenhum erro fatal. A aplicação reinicia com lista vazia.
+
+------------------------------------------------------
+Caso de Teste 5: API Externa (fetchApiData)
+------------------------------------------------------
+1. Sucesso
+   - Resultado esperado: O conteúdo da API é exibido no <div id="api-output">.
+
+2. Falha (Erro de rede)
+   - Simular offline.
+   - Resultado esperado: Mensagem "Erro ao carregar dados externos." e erro registado no console.
