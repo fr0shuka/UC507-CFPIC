@@ -34,6 +34,19 @@ function adicionarTarefa(titulo) {
 }
 
 // ---------------------------
+// Edição
+// ---------------------------
+
+function editarTarefa(idTarefa, novoTitulo) {
+  const tarefas = getTarefas();
+  const idx = tarefas.findIndex(t => t.id === idTarefa);
+  if (idx === -1) return; // não encontrada
+  tarefas[idx].titulo = novoTitulo.trim();
+  saveTarefas(tarefas);
+  mostrarTarefas();
+}
+
+// ---------------------------
 // Remover
 // ---------------------------
 
@@ -108,6 +121,16 @@ function mostrarTarefas() {
       alternarConclusao(tarefa.id);
     });
 
+    const btnEditar = document.createElement("button");
+    btnEditar.className = "btn btn-editar";
+    btnEditar.textContent = "Editar";
+    btnEditar.addEventListener("click", () => {
+      const novoTitulo = prompt("Editar título:", tarefa.titulo);
+      if (novoTitulo && novoTitulo.trim() !== "") {
+        editarTarefa(tarefa.id, novoTitulo);
+      }
+    });
+
     const btnRemover = document.createElement("button");
     btnRemover.className = "btn btn-remover";
     btnRemover.textContent = "Remover";
@@ -118,6 +141,7 @@ function mostrarTarefas() {
     });
 
     actions.appendChild(btnConcluir);
+    actions.appendChild(btnEditar); 
     actions.appendChild(btnRemover);
 
     // Anexa título e ações ao li (respeita o grid do CSS)
